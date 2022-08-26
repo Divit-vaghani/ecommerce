@@ -1,4 +1,4 @@
-# ecommerce
+# Ecommerce
 
 Ecommerce App With Block Pattern
 
