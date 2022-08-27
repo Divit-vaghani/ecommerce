@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:ecommerce/model/shopping_mall.dart';
+import 'package:ecommerce/model/sum_total.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
@@ -20,6 +21,7 @@ class DataBaseHelper {
   static String columnFeaturedImage = 'featured_image';
   static String columnStatus = 'status';
   static String columnCreatedAt = 'created_at';
+  static String columnCart = 'cart';
 
   static Database? _database;
 
@@ -58,9 +60,42 @@ class DataBaseHelper {
 	       $columnPrice	INTEGER,
 	       $columnFeaturedImage	TEXT,
 	       $columnStatus	TEXT,
-	       $columnCreatedAt	TEXT
+	       $columnCreatedAt	TEXT,
+	       $columnCart INTEGER
          )
       ''');
+  }
+
+  Future<List<Datum>> getCartItems() async {
+    Database? db = await instance.dataBase;
+    return List<Datum>.from(
+      jsonDecode(
+        jsonEncode(
+          await db!.rawQuery("Select * from Items where cart=1"),
+        ),
+      ).map(
+        (x) => Datum.fromJson(x),
+      ),
+    );
+  }
+
+  Future<List<SumPrice>> getTotalRate() async {
+    Database? db = await instance.dataBase;
+    return sumPriceFromJson(
+      jsonEncode(
+        await db!.rawQuery("SELECT SUM(price*status)FROM Items where cart=1"),
+      ),
+    );
+  }
+
+  Future<int> addToCart(Datum data) async {
+    Database? db = await instance.dataBase;
+    return db!.update(
+      table,
+      data.toJsonAddCart(),
+      where: '$columnId = ?',
+      whereArgs: [data.id],
+    );
   }
 
   Future<int> insert(Datum data) async {

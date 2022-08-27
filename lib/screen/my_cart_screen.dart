@@ -1,5 +1,10 @@
+import 'package:ecommerce/blocs/shopping_bloc.dart';
+import 'package:ecommerce/const/const.dart';
+import 'package:ecommerce/model/shopping_mall.dart';
+import 'package:ecommerce/widgets/custom_text_widget.dart';
 import 'package:ecommerce/widgets/my_cart_items.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MyCartScreen extends StatefulWidget {
   const MyCartScreen({Key? key}) : super(key: key);
@@ -10,6 +15,12 @@ class MyCartScreen extends StatefulWidget {
 
 class _MyCartScreenState extends State<MyCartScreen> {
   @override
+  void initState() {
+    context.read<ShoppingBloc>().add(GetCartList());
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -18,20 +29,63 @@ class _MyCartScreenState extends State<MyCartScreen> {
         elevation: 0,
         title: const Text('My Cart'),
       ),
-      body: GridView.builder(
-        gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-          maxCrossAxisExtent: 500,
-          mainAxisExtent: 150,
-        ),
-        physics: const BouncingScrollPhysics(),
-        itemCount: 0,
-        itemBuilder: (context, index) => const MyCartItems(
-          imageUrl:
-              'http://205.134.254.135/~mobile/MtProject/uploads/product_image/5.jpg',
-          productName: '',
-          productPrice: 100,
-          quantity: 1,
-        ),
+      body: BlocBuilder<ShoppingBloc, ShoppingState>(
+        builder: (context, state) {
+          if (state is CartLoading) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (state is CartLoaded) {
+            return GridView.builder(
+              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                maxCrossAxisExtent: 500,
+                mainAxisExtent: 150,
+              ),
+              physics: const BouncingScrollPhysics(),
+              itemCount: state.products.length,
+              itemBuilder: (context, index) {
+                Datum cartItems = state.products[index];
+                return MyCartItems(
+                  imageUrl: "${cartItems.featuredImage}",
+                  productName: "${cartItems.slug}",
+                  productPrice: cartItems.price!.toDouble(),
+                  quantity: int.parse("${cartItems.status}"),
+                );
+              },
+            );
+          } else if (state is CartEmpty) {
+            return const Center(child: CustomTextWidget("Cart is Empty"));
+          }
+          return const SizedBox();
+        },
+      ),
+      bottomNavigationBar: BlocBuilder<ShoppingBloc, ShoppingState>(
+        builder: (context, state) {
+          if (state is CartLoaded) {
+            return Container(
+              color: Theme.of(context).primaryColor,
+              height: 50.0,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  CustomTextWidget(
+                    "Total items : ${state.totalItems}",
+                    color: AppColor.white,
+                    margin: const EdgeInsets.symmetric(horizontal: 12.0),
+                  ),
+                  CustomTextWidget(
+                    "Grand Total : ₹ ${state.totalPrice}",
+                    color: AppColor.white,
+                    margin: const EdgeInsets.symmetric(horizontal: 12.0),
+                  ),
+                ],
+              ),
+            );
+          } else if (state is CartEmpty) {
+            return const SizedBox();
+          }
+          return const SizedBox();
+        },
       ),
     );
   }

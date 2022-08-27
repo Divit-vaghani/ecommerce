@@ -6,6 +6,7 @@ final Logger logger = Logger(output: ConsoleOutput());
 class AppColor {
   static const Color iconColor = Color(0xff7D7D7D);
   static const Color textColor = Color(0xff7D7D7D);
+  static const Color white = Color(0xffFFFFFF);
 }
 
 class Assets {

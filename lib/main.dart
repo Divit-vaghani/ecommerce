@@ -1,5 +1,7 @@
+import 'package:ecommerce/blocs/shopping_bloc.dart';
 import 'package:ecommerce/screen/home_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -11,13 +13,16 @@ class Ecommerce extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Ecommerce App',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.red,
+    return BlocProvider<ShoppingBloc>(
+      create: (context) => ShoppingBloc(),
+      child: MaterialApp(
+        title: 'Ecommerce App',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primarySwatch: Colors.red,
+        ),
+        home: const HomeScreen(),
       ),
-      home: const HomeScreen(),
     );
   }
 }

@@ -50,6 +50,7 @@ class Datum {
     this.featuredImage,
     this.status,
     this.createdAt,
+    this.cart,
   });
 
   int? id;
@@ -60,6 +61,9 @@ class Datum {
   String? featuredImage;
   String? status;
   String? createdAt;
+  int? cart;
+
+  Datum.carts({this.cart, this.id});
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
         id: json["id"],
@@ -70,7 +74,13 @@ class Datum {
         featuredImage: json["featured_image"],
         status: json["status"],
         createdAt: json["created_at"],
+        cart: json["cart"],
       );
+
+  Map<String, dynamic> toJsonAddCart() => {
+        "id": id,
+        "cart": cart,
+      };
 
   Map<String, dynamic> toJson() => {
         "id": id,
@@ -81,5 +91,6 @@ class Datum {
         "featured_image": featuredImage,
         "status": status,
         "created_at": createdAt,
+        "cart": cart,
       };
 }

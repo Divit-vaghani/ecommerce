@@ -4,16 +4,18 @@ import 'package:ecommerce/widgets/custom_text_widget.dart';
 import 'package:flutter/material.dart';
 
 class ShoppingMallItems extends StatelessWidget {
-  const ShoppingMallItems(
-      {Key? key,
-      required this.imageUrl,
-      required this.onPressed,
-      required this.productCount})
-      : super(key: key);
+  const ShoppingMallItems({
+    Key? key,
+    required this.imageUrl,
+    required this.onPressed,
+    required this.productCount,
+    required this.color,
+  }) : super(key: key);
 
   final String imageUrl;
   final void Function() onPressed;
   final String productCount;
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +71,7 @@ class ShoppingMallItems extends StatelessWidget {
                   IconButton(
                     splashRadius: 20.0,
                     onPressed: onPressed,
-                    color: AppColor.iconColor,
+                    color: color,
                     tooltip: 'Cart',
                     icon: const Icon(Icons.shopping_cart_sharp),
                   ),

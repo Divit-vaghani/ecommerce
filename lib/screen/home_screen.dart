@@ -15,11 +15,12 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final ShoppingBloc shoppingBloc = ShoppingBloc();
+  void addEvent(BuildContext context, ShoppingEvent shoppingEvent) =>
+      context.read<ShoppingBloc>().add(shoppingEvent);
 
   @override
   void initState() {
-    shoppingBloc.add(GetShoppingList());
+    context.read<ShoppingBloc>().add(GetShoppingList());
     super.initState();
   }
 
@@ -34,54 +35,72 @@ class _HomeScreenState extends State<HomeScreen> {
           IconButton(
             tooltip: 'Cart',
             splashRadius: 20.0,
-            onPressed: () => Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => const MyCartScreen())),
+            onPressed: () => Navigator.of(context)
+                .push(MaterialPageRoute(
+                    builder: (context) => const MyCartScreen()))
+                .whenComplete(
+                  () => addEvent(
+                    context,
+                    GetShoppingList(),
+                  ),
+                ),
             icon: const Icon(Icons.shopping_cart_sharp),
           )
         ],
       ),
-      body: BlocProvider<ShoppingBloc>(
-        create: (context) => shoppingBloc,
-        child: BlocListener<ShoppingBloc, ShoppingState>(
-          listener: (context, state) {
-            if (state is ShoppingError) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text("${state.message}"),
-                  behavior: SnackBarBehavior.floating,
-                  backgroundColor: Theme.of(context).primaryColor,
-                ),
+      body: BlocListener<ShoppingBloc, ShoppingState>(
+        listener: (context, state) {
+          if (state is ShoppingError) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text("${state.message}"),
+                behavior: SnackBarBehavior.floating,
+                backgroundColor: Theme.of(context).primaryColor,
+              ),
+            );
+          }
+        },
+        child: BlocBuilder<ShoppingBloc, ShoppingState>(
+          builder: (context, state) {
+            if (state is ShoppingLoading) {
+              return const Center(
+                child: CircularProgressIndicator(),
               );
+            } else if (state is ShoppingLoaded) {
+              return GridView.builder(
+                itemCount: state.products.length,
+                physics: const BouncingScrollPhysics(),
+                gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                  maxCrossAxisExtent: 200,
+                ),
+                itemBuilder: (context, index) {
+                  Datum shoppingItems = state.products[index];
+                  return ShoppingMallItems(
+                    onPressed: () => shoppingItems.cart == null ||
+                            shoppingItems.cart == 0
+                        ? addEvent(
+                            context,
+                            AddToCart(
+                                datum:
+                                    Datum.carts(cart: 1, id: shoppingItems.id)))
+                        : addEvent(
+                            context,
+                            RemoveFromCart(
+                                datum: Datum.carts(
+                                    cart: 0, id: shoppingItems.id))),
+                    color: shoppingItems.cart == null || shoppingItems.cart == 0
+                        ? AppColor.iconColor
+                        : Theme.of(context).primaryColor,
+                    imageUrl: "${shoppingItems.featuredImage}",
+                    productCount: "${shoppingItems.title}",
+                  );
+                },
+              );
+            } else if (state is ShoppingError) {
+              return const LottieWidget(path: Assets.error);
             }
+            return const SizedBox();
           },
-          child: BlocBuilder<ShoppingBloc, ShoppingState>(
-            builder: (context, state) {
-              if (state is ShoppingLoading) {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              } else if (state is ShoppingLoaded) {
-                return GridView.builder(
-                  itemCount: state.products.length,
-                  physics: const BouncingScrollPhysics(),
-                  gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                    maxCrossAxisExtent: 200,
-                  ),
-                  itemBuilder: (context, index) {
-                    Datum shoppingItems = state.products[index];
-                    return ShoppingMallItems(
-                      onPressed: () {},
-                      imageUrl: "${shoppingItems.featuredImage}",
-                      productCount: "${shoppingItems.title}",
-                    );
-                  },
-                );
-              } else if (state is ShoppingError) {
-                return const LottieWidget(error: Assets.error);
-              }
-              return const SizedBox();
-            },
-          ),
         ),
       ),
     );
