@@ -6,4 +6,4 @@ class WebApiRepository {
   Future<ShoppingMall> fetchProductListing() => _webService.getProductListing();
 }
 
-class OnNetworkError extends Error {}
+class UnknownNetworkError extends Error {}

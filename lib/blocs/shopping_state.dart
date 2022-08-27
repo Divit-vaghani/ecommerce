@@ -12,9 +12,9 @@ class ShoppingInitial extends ShoppingState {}
 class ShoppingLoading extends ShoppingState {}
 
 class ShoppingLoaded extends ShoppingState {
-  final ShoppingMall shoppingMall;
+  final List<Datum> products;
 
-  const ShoppingLoaded({required this.shoppingMall});
+  const ShoppingLoaded({required this.products});
 }
 
 class ShoppingError extends ShoppingState {

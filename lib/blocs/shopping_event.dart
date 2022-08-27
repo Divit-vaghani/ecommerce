@@ -7,3 +7,5 @@ abstract class ShoppingEvent extends Equatable {
 }
 
 class GetShoppingList extends ShoppingEvent {}
+
+class AddProduct extends ShoppingEvent {}

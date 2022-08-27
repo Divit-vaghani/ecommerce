@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
-class LoadingErrorWidget extends StatelessWidget {
-  const LoadingErrorWidget({Key? key, required this.error}) : super(key: key);
+class LottieWidget extends StatelessWidget {
+  const LottieWidget({Key? key, required this.error}) : super(key: key);
 
   final String error;
 

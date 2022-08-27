@@ -2,7 +2,7 @@ import 'package:ecommerce/blocs/shopping_bloc.dart';
 import 'package:ecommerce/const/const.dart';
 import 'package:ecommerce/model/shopping_mall.dart';
 import 'package:ecommerce/screen/my_cart_screen.dart';
-import 'package:ecommerce/widgets/error_widget.dart';
+import 'package:ecommerce/widgets/lottie_widget.dart';
 import 'package:ecommerce/widgets/shopping_mall_items.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -62,13 +62,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 );
               } else if (state is ShoppingLoaded) {
                 return GridView.builder(
-                  itemCount: state.shoppingMall.data!.length,
+                  itemCount: state.products.length,
                   physics: const BouncingScrollPhysics(),
                   gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
                     maxCrossAxisExtent: 200,
                   ),
                   itemBuilder: (context, index) {
-                    Datum shoppingItems = state.shoppingMall.data![index];
+                    Datum shoppingItems = state.products[index];
                     return ShoppingMallItems(
                       onPressed: () {},
                       imageUrl: "${shoppingItems.featuredImage}",
@@ -77,7 +77,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   },
                 );
               } else if (state is ShoppingError) {
-                return const LoadingErrorWidget(error: Assets.error);
+                return const LottieWidget(error: Assets.error);
               }
               return const SizedBox();
             },
