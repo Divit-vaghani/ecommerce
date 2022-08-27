@@ -6,19 +6,22 @@ ShoppingMall shoppingMallFromJson(String str) =>
 String shoppingMallToJson(ShoppingMall data) => json.encode(data.toJson());
 
 class ShoppingMall {
-  ShoppingMall({
-    required this.status,
-    required this.message,
-    required this.totalRecord,
-    required this.totalPage,
-    required this.data,
-  });
+  ShoppingMall(
+      {this.status,
+      this.message,
+      this.totalRecord,
+      this.totalPage,
+      this.data,
+      this.error});
 
-  final int status;
-  final String message;
-  final int totalRecord;
-  final int totalPage;
-  final List<Datum> data;
+  int? status;
+  String? message;
+  int? totalRecord;
+  int? totalPage;
+  List<Datum>? data;
+  String? error;
+
+  factory ShoppingMall.withError(String error) => ShoppingMall(error: error);
 
   factory ShoppingMall.fromJson(Map<String, dynamic> json) => ShoppingMall(
         status: json["status"],
@@ -33,30 +36,30 @@ class ShoppingMall {
         "message": message,
         "totalRecord": totalRecord,
         "totalPage": totalPage,
-        "data": List<dynamic>.from(data.map((x) => x.toJson())),
+        "data": List<dynamic>.from(data!.map((x) => x.toJson())),
       };
 }
 
 class Datum {
   Datum({
-    required this.id,
-    required this.slug,
-    required this.title,
-    required this.description,
-    required this.price,
-    required this.featuredImage,
-    required this.status,
-    required this.createdAt,
+    this.id,
+    this.slug,
+    this.title,
+    this.description,
+    this.price,
+    this.featuredImage,
+    this.status,
+    this.createdAt,
   });
 
-  final int id;
-  final String slug;
-  final String title;
-  final String description;
-  final int price;
-  final String featuredImage;
-  final String status;
-  final String createdAt;
+  int? id;
+  String? slug;
+  String? title;
+  String? description;
+  int? price;
+  String? featuredImage;
+  String? status;
+  String? createdAt;
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
         id: json["id"],

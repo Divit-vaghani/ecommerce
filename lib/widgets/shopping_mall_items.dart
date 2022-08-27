@@ -63,7 +63,9 @@ class ShoppingMallItems extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  CustomTextWidget(productCount, fontSize: 15),
+                  Flexible(
+                    child: CustomTextWidget(productCount, fontSize: 15),
+                  ),
                   IconButton(
                     splashRadius: 20.0,
                     onPressed: onPressed,

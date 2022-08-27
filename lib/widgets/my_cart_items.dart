@@ -67,7 +67,7 @@ class MyCartItems extends StatelessWidget {
                   children: [
                     InformationWidget(
                       children: [
-                        CustomTextWidget(productName),
+                        Flexible(child: CustomTextWidget(productName)),
                       ],
                     ),
                     InformationWidget(

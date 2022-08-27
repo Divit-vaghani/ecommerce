@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
+
+final Logger logger = Logger(output: ConsoleOutput());
 
 class AppColor {
   static const Color iconColor = Color(0xff7D7D7D);
   static const Color textColor = Color(0xff7D7D7D);
+}
+
+class Assets {
+  static const String error = "assets/lottie/error.json";
 }
 
 class WebApiUtility {

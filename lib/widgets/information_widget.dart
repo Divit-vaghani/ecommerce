@@ -11,7 +11,6 @@ class InformationWidget extends StatelessWidget {
       margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 10.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        // mainAxisSize: MainAxisSize.min,
         children: children,
       ),
     );
