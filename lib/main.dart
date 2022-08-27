@@ -1,7 +1,8 @@
-import 'package:ecommerce/blocs/shopping_bloc.dart';
-import 'package:ecommerce/screen/home_screen.dart';
+import 'package:ecommerce/bloc/shopping_bloc/shopping_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'bloc/screen/home_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

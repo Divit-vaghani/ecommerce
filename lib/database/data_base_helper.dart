@@ -8,7 +8,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DataBaseHelper {
-  static const String _dataBaseName = 'shopping.db';
+  static const String _dataBaseName = 'shopping_bloc.db';
   static const int _dataBaseVersion = 1;
 
   static String table = 'Items';

@@ -1,7 +1,7 @@
-import 'package:ecommerce/blocs/shopping_bloc.dart';
+import 'package:ecommerce/bloc/screen/my_cart_screen.dart';
+import 'package:ecommerce/bloc/shopping_bloc/shopping_bloc.dart';
 import 'package:ecommerce/const/const.dart';
 import 'package:ecommerce/model/shopping_mall.dart';
-import 'package:ecommerce/screen/my_cart_screen.dart';
 import 'package:ecommerce/widgets/lottie_widget.dart';
 import 'package:ecommerce/widgets/shopping_mall_items.dart';
 import 'package:flutter/material.dart';

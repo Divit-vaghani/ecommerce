@@ -1,4 +1,4 @@
-import 'package:ecommerce/blocs/shopping_bloc.dart';
+import 'package:ecommerce/bloc/shopping_bloc/shopping_bloc.dart';
 import 'package:ecommerce/const/const.dart';
 import 'package:ecommerce/model/shopping_mall.dart';
 import 'package:ecommerce/widgets/custom_text_widget.dart';
