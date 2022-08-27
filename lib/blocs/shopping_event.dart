@@ -27,3 +27,17 @@ class RemoveFromCart extends ShoppingEvent {
   @override
   List<Object?> get props => [datum];
 }
+
+class AddItem extends ShoppingEvent {
+  final Datum datum;
+  const AddItem({required this.datum});
+  @override
+  List<Object?> get props => [datum];
+}
+
+class RemoveItem extends ShoppingEvent {
+  final Datum datum;
+  const RemoveItem({required this.datum});
+  @override
+  List<Object?> get props => [datum];
+}

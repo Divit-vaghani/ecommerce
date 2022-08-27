@@ -65,6 +65,8 @@ class Datum {
 
   Datum.carts({this.cart, this.id});
 
+  Datum.addRemove({this.status, this.id});
+
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
         id: json["id"],
         slug: json["slug"],
@@ -80,6 +82,11 @@ class Datum {
   Map<String, dynamic> toJsonAddCart() => {
         "id": id,
         "cart": cart,
+      };
+
+  Map<String, dynamic> toJsonAddRemoveItem() => {
+        "id": id,
+        "status": status,
       };
 
   Map<String, dynamic> toJson() => {

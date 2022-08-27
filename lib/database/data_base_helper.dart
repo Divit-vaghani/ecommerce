@@ -98,6 +98,16 @@ class DataBaseHelper {
     );
   }
 
+  Future<int> addRemoveItem(Datum data) async {
+    Database? db = await instance.dataBase;
+    return db!.update(
+      table,
+      data.toJsonAddRemoveItem(),
+      where: '$columnId = ?',
+      whereArgs: [data.id],
+    );
+  }
+
   Future<int> insert(Datum data) async {
     Database? db = await instance.dataBase;
     return db!.insert(table, data.toJson());
@@ -120,7 +130,7 @@ class DataBaseHelper {
     );
   }
 
-  close() async {
+  Future close() async {
     Database? db = await instance.dataBase;
     await db!.close();
   }

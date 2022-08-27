@@ -51,6 +51,28 @@ class ShoppingBloc extends Bloc<ShoppingEvent, ShoppingState> {
       emit(ShoppingLoaded(products: products));
     });
 
+    on<AddItem>((event, emit) async {
+      await dataBaseHelper.addRemoveItem(event.datum);
+      List<Datum> products = await dataBaseHelper.getCartItems();
+      List<SumPrice> totalPrice = await dataBaseHelper.getTotalRate();
+      emit(CartLoaded(
+        products: products,
+        totalItems: products.length,
+        totalPrice: totalPrice[0].sumPriceStatus ?? 0,
+      ));
+    });
+
+    on<RemoveItem>((event, emit) async {
+      await dataBaseHelper.addRemoveItem(event.datum);
+      List<Datum> products = await dataBaseHelper.getCartItems();
+      List<SumPrice> totalPrice = await dataBaseHelper.getTotalRate();
+      emit(CartLoaded(
+        products: products,
+        totalItems: products.length,
+        totalPrice: totalPrice[0].sumPriceStatus ?? 0,
+      ));
+    });
+
     on<GetCartList>((event, emit) async {
       emit(CartLoading());
 
@@ -73,9 +95,9 @@ class ShoppingBloc extends Bloc<ShoppingEvent, ShoppingState> {
   }
 
   @override
-  Future<void> close() {
+  Future<void> close() async {
     final DataBaseHelper dataBaseHelper = DataBaseHelper.instance;
-    dataBaseHelper.close();
+    await dataBaseHelper.close();
     return super.close();
   }
 }

@@ -11,12 +11,16 @@ class MyCartItems extends StatelessWidget {
     required this.quantity,
     required this.productPrice,
     required this.productName,
+    required this.onAdd,
+    required this.onRemove,
   }) : super(key: key);
 
   final String imageUrl;
   final int quantity;
   final double productPrice;
   final String productName;
+  final void Function() onAdd;
+  final void Function() onRemove;
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +83,25 @@ class MyCartItems extends StatelessWidget {
                     InformationWidget(
                       children: [
                         const CustomTextWidget('Quantity'),
-                        CustomTextWidget('$quantity'),
+                        Row(
+                          children: [
+                            IconButton(
+                              tooltip: 'Add',
+                              splashRadius: 20.0,
+                              onPressed: onAdd,
+                              color: AppColor.iconColor,
+                              icon: const Icon(Icons.add),
+                            ),
+                            CustomTextWidget('$quantity'),
+                            IconButton(
+                              tooltip: 'Remove',
+                              splashRadius: 20.0,
+                              onPressed: onRemove,
+                              color: AppColor.iconColor,
+                              icon: const Icon(Icons.remove),
+                            ),
+                          ],
+                        ),
                       ],
                     ),
                   ],

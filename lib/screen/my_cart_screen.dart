@@ -14,6 +14,9 @@ class MyCartScreen extends StatefulWidget {
 }
 
 class _MyCartScreenState extends State<MyCartScreen> {
+  void addEvent(BuildContext context, ShoppingEvent shoppingEvent) =>
+      context.read<ShoppingBloc>().add(shoppingEvent);
+
   @override
   void initState() {
     context.read<ShoppingBloc>().add(GetCartList());
@@ -46,8 +49,28 @@ class _MyCartScreenState extends State<MyCartScreen> {
               itemBuilder: (context, index) {
                 Datum cartItems = state.products[index];
                 return MyCartItems(
+                  onAdd: () => addEvent(
+                    context,
+                    AddItem(
+                      datum: Datum.addRemove(
+                        id: cartItems.id,
+                        status:
+                            "${int.parse("${cartItems.status}") >= 25 ? 25 : int.parse("${cartItems.status}") + 1}",
+                      ),
+                    ),
+                  ),
+                  onRemove: () => addEvent(
+                    context,
+                    RemoveItem(
+                      datum: Datum.addRemove(
+                        id: cartItems.id,
+                        status:
+                            "${int.parse("${cartItems.status}") <= 1 ? 1 : int.parse("${cartItems.status}") - 1}",
+                      ),
+                    ),
+                  ),
                   imageUrl: "${cartItems.featuredImage}",
-                  productName: "${cartItems.slug}",
+                  productName: "${cartItems.slug?.replaceAll("_", " ")}",
                   productPrice: cartItems.price!.toDouble(),
                   quantity: int.parse("${cartItems.status}"),
                 );
@@ -73,10 +96,12 @@ class _MyCartScreenState extends State<MyCartScreen> {
                     color: AppColor.white,
                     margin: const EdgeInsets.symmetric(horizontal: 12.0),
                   ),
-                  CustomTextWidget(
-                    "Grand Total : ₹ ${state.totalPrice}",
-                    color: AppColor.white,
-                    margin: const EdgeInsets.symmetric(horizontal: 12.0),
+                  Flexible(
+                    child: CustomTextWidget(
+                      "Grand Total : ₹ ${state.totalPrice}",
+                      color: AppColor.white,
+                      margin: const EdgeInsets.symmetric(horizontal: 12.0),
+                    ),
                   ),
                 ],
               ),
