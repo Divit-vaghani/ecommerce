@@ -63,7 +63,7 @@ class Datum {
   String? createdAt;
   int? cart;
 
-  Datum.carts({this.cart, this.id});
+  Datum.carts({this.cart, this.id, this.status});
 
   Datum.addRemove({this.status, this.id});
 
@@ -82,6 +82,7 @@ class Datum {
   Map<String, dynamic> toJsonAddCart() => {
         "id": id,
         "cart": cart,
+        "status": status,
       };
 
   Map<String, dynamic> toJsonAddRemoveItem() => {

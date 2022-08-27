@@ -76,18 +76,27 @@ class _HomeScreenState extends State<HomeScreen> {
                 itemBuilder: (context, index) {
                   Datum shoppingItems = state.products[index];
                   return ShoppingMallItems(
-                    onPressed: () => shoppingItems.cart == null ||
-                            shoppingItems.cart == 0
-                        ? addEvent(
-                            context,
-                            AddToCart(
-                                datum:
-                                    Datum.carts(cart: 1, id: shoppingItems.id)))
-                        : addEvent(
-                            context,
-                            RemoveFromCart(
-                                datum: Datum.carts(
-                                    cart: 0, id: shoppingItems.id))),
+                    onPressed: () =>
+                        shoppingItems.cart == null || shoppingItems.cart == 0
+                            ? addEvent(
+                                context,
+                                AddToCart(
+                                  datum: Datum.carts(
+                                    cart: 1,
+                                    id: shoppingItems.id,
+                                    status: '1',
+                                  ),
+                                ),
+                              )
+                            : addEvent(
+                                context,
+                                RemoveFromCart(
+                                  datum: Datum.carts(
+                                      cart: 0,
+                                      id: shoppingItems.id,
+                                      status: '1'),
+                                ),
+                              ),
                     color: shoppingItems.cart == null || shoppingItems.cart == 0
                         ? AppColor.iconColor
                         : Theme.of(context).primaryColor,
