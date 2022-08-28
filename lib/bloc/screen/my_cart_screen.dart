@@ -39,11 +39,7 @@ class _MyCartScreenState extends State<MyCartScreen> {
               child: CircularProgressIndicator(),
             );
           } else if (state is CartLoaded) {
-            return GridView.builder(
-              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                maxCrossAxisExtent: 500,
-                mainAxisExtent: 150,
-              ),
+            return ListView.builder(
               physics: const BouncingScrollPhysics(),
               itemCount: state.products.length,
               itemBuilder: (context, index) {
